@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExanimaSaveManager"
         mc:Ignorable="d"
-        Title="Exanima Save Manager" Height="300" Width="185" ResizeMode="CanMinimize">
+        Title="Exanima Save Manager" Height="300" Width="185" ResizeMode="CanMinimize" Icon="AppIcon.ico">
     <Grid Margin="3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
