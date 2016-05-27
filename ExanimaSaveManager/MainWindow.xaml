@@ -1,0 +1,33 @@
+﻿<Window x:Name="window" x:Class="ExanimaSaveManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExanimaSaveManager"
+        mc:Ignorable="d"
+        Title="Exanima Save Manager" Height="300" Width="185" ResizeMode="CanMinimize">
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="profileListBox" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Profiles, ElementName=window}" SelectionChanged="profileListBox_SelectionChanged"/>
+        
+        <TextBox x:Name="newProfileName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="{Binding ProfileBoxVisibility, ElementName=window}" KeyDown="newProfileName_KeyDown" />
+
+        <Button x:Name="saveButton" Content="Save" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Click="saveButton_Click" IsEnabled="{Binding HasProfileSelection, ElementName=window, Mode=OneWay}"/>
+        <Button x:Name="loadButton" Content="Load" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Click="loadButton_Click" IsEnabled="{Binding HasProfileSelection, ElementName=window, Mode=OneWay}"/>
+
+        <Button x:Name="newButton" Content="New" Grid.Row="4" Grid.Column="0" Click="newButton_Click"/>
+        <Button x:Name="deleteButton" Content="Delete" Grid.Row="4" Grid.Column="1" Click="deleteButton_Click" IsEnabled="{Binding HasProfileSelection, ElementName=window, Mode=OneWay}"/>
+    </Grid>
+
+</Window>
