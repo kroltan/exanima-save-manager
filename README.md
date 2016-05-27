@@ -1,5 +1,7 @@
 # Exanima Save Manager
 
+[![DOWNLOAD LATEST](http://i.imgur.com/Kii0htV.png)](https://github.com/kroltan/exanima-save-manager/releases/latest)
+
 This tool backs up Exanima save files (both campaign and Arena)
 and settings into profiles, which can be restored later.
 
