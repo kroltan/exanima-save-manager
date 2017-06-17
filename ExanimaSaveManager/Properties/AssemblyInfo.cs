@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ExanimaSaveManager")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Exanima Save Manager")]
+[assembly: AssemblyDescription("Automatically backs up and allows restoration of Exanima saves")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExanimaSaveManager")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("Exanima Save Manager")]
+[assembly: AssemblyCopyright("Copyright © Leonardo Giovanni Scur 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
