@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ExanimaSaveManager {
-    public class SaveLoader {
+    public static class SaveLoader {
         public static readonly string BaseDataPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "Exanima"
@@ -12,23 +12,24 @@ namespace ExanimaSaveManager {
 
         public static string ProfilePath(string profileName) => Path.Combine(ProfilesPath, profileName);
         public static readonly string ProfilesPath = Path.Combine(BaseDataPath, "ESM_Profiles");
-        public static readonly Regex FilePathFormat = new Regex(@"(?<GameMode>[A-Z][a-z]*)(?<Identifier>\d{3}).rsg$", RegexOptions.Compiled);
+        public static readonly Regex FilePathFormat = new Regex(@"(?<GameMode>[A-Z][a-z]*)(?<Identifier>\d+).rsg$", RegexOptions.Compiled);
 
         private const int CurrentLevelOffset = 0x2000;
         private const int CharacterNameOffset = 0x2040;
 
         public static SaveInformation Load(string filePath) {
             var match = FilePathFormat.Match(filePath);
-            var gameMode = match.Groups["GameMode"].Value;
-            var id = match.Groups["Identifier"].Value;
-            using (var stream = new BufferedStream(File.OpenRead(filePath))) {
+            var file = new FileInfo(filePath);
+            using (var fileStream = File.OpenRead(filePath))
+            using (var stream = new BufferedStream(fileStream)) {
                 var level = ReadNullTerminatedStringAt(stream, CurrentLevelOffset);
                 var character = ReadNullTerminatedStringAt(stream, CharacterNameOffset);
                 return new SaveInformation {
-                    GameMode = gameMode,
+                    GameMode = match.Groups["GameMode"].Value,
                     CurrentLevel = level,
                     CharacterName = character,
-                    Identifier = id
+                    Identifier = match.Groups["Identifier"].Value,
+                    ModificationTime = file.LastWriteTime
                 };
             }
         }

@@ -1,13 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ExanimaSaveManager.Annotations;
 
 namespace ExanimaSaveManager {
-    public class SaveInformation : INotifyPropertyChanged {
+    public sealed class SaveInformation : INotifyPropertyChanged {
         private string _characterName;
         private string _currentLevel;
         private string _gameMode;
         private string _identifier;
+        private DateTime _modificationTime;
 
         public string CharacterName {
             get => _characterName;
@@ -30,6 +32,7 @@ namespace ExanimaSaveManager {
             set {
                 _gameMode = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FileName));
             }
         }
 
@@ -38,8 +41,20 @@ namespace ExanimaSaveManager {
             set {
                 _identifier = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FileName));
             }
         }
+
+        public DateTime ModificationTime {
+            get => _modificationTime;
+            set {
+                _modificationTime = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FileName));
+            }
+        }
+
+        public string FileName => $"{GameMode}{Identifier}.rsg";
 
         public bool IsSameFile(SaveInformation other) {
             return GameMode == other.GameMode
@@ -49,7 +64,7 @@ namespace ExanimaSaveManager {
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

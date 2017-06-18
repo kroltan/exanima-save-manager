@@ -5,8 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ExanimaSaveManager"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="250">
-    <DataGrid x:Name="Contents" AutoGenerateColumns="False" HorizontalGridLinesBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+             d:DesignHeight="300" d:DesignWidth="400">
+    <DataGrid x:Name="Contents" 
+              AutoGenerateColumns="False" 
+              HorizontalGridLinesBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserReorderColumns="False"
+              CanUserResizeRows="False"
+              SelectionMode="Single">
         <DataGrid.SelectedValue>
             <Binding Path="Selected" ElementName="Control" Mode="TwoWay" />
         </DataGrid.SelectedValue>
@@ -18,8 +25,9 @@
         </DataGrid.DataContext>
         <DataGrid.Columns>
             <DataGridTextColumn Binding="{Binding CharacterName}" Header="Character" Width="1*" IsReadOnly="True" />
-            <DataGridTextColumn Binding="{Binding CurrentLevel}" Header="Level" Width="1*" IsReadOnly="True" />
-            <DataGridTextColumn Binding="{Binding GameMode}" Header="Game Mode" Width="1*" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding CurrentLevel}" Header="Level" Width="Auto" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding GameMode}" Header="Game Mode" Width="Auto" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding ModificationTime}" Header="Last Change" Width="Auto" IsReadOnly="True" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

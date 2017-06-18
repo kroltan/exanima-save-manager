@@ -1,0 +1,31 @@
+﻿<Window x:Name="window" x:Class="ExanimaSaveManager.Details"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExanimaSaveManager"
+        mc:Ignorable="d"
+        Title="{Binding Master.CharacterName, ElementName=window, StringFormat=History for \{0\}}"
+        Height="300" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <local:SaveList Grid.ColumnSpan="2"
+                        Items="{Binding Profile.Repository, ElementName=window}"
+                        Selected="{Binding Selected, ElementName=window, Mode=TwoWay}" />
+        <Button x:Name="ApplySelected" Grid.Row="1" Grid.Column="0"
+                Content="Use this Version" 
+                Click="ApplySelected_Click"
+                IsEnabled="{Binding HasSelection, ElementName=window}" />
+        <Button x:Name="BackupNow" Grid.Row="1" Grid.Column="1"
+                Content="Backup Now" 
+                Click="BackupNow_Click" />
+    </Grid>
+</Window>

@@ -63,18 +63,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\SaveCommands.cs" />
+    <Compile Include="PeriodicBackup.cs" />
     <Compile Include="Profile.cs" />
-    <Compile Include="Commands\RestoreLatestBackupCommand.cs" />
     <Compile Include="SaveLoader.cs" />
     <Compile Include="SaveInformation.cs" />
     <Compile Include="SaveRepository.cs" />
     <Compile Include="UI\SaveList.xaml.cs">
       <DependentUpon>SaveList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SaveWatcher.cs" />
-    <Compile Include="UI\VersionHistory.xaml.cs">
-      <DependentUpon>VersionHistory.xaml</DependentUpon>
+    <Compile Include="SaveCreationChangeWatcher.cs" />
+    <Compile Include="UI\Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -92,7 +91,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\VersionHistory.xaml">
+    <Page Include="UI\Details.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

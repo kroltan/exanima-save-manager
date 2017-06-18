@@ -6,12 +6,15 @@ using ExanimaSaveManager.Annotations;
 
 namespace ExanimaSaveManager {
     public class SaveRepository : ReadOnlyObservableCollection<SaveInformation>, IDisposable {
-        private readonly ObservableCollection<SaveInformation> _list;
-        private readonly SaveWatcher _watcher;
+        private static SaveRepository _master;
+        public static SaveRepository Master => Initialize(null);
 
-        private SaveRepository([NotNull] ObservableCollection<SaveInformation> list, string profile = null) : base(list) {
+        private readonly ObservableCollection<SaveInformation> _list;
+        private readonly SaveCreationChangeWatcher _watcher;
+
+        private SaveRepository([NotNull] ObservableCollection<SaveInformation> list, string path = null) : base(list) {
             _list = list;
-            _watcher = new SaveWatcher(profile);
+            _watcher = new SaveCreationChangeWatcher(path);
             _watcher.GameWrittenSave += file => {
                 var save = SaveLoader.Load(file);
                 AddPotentiallyExistingSave(save);
@@ -31,13 +34,24 @@ namespace ExanimaSaveManager {
         }
 
         public void Dispose() {
+            if (this == _master) {
+                return;
+            }
             _watcher.Dispose();
         }
 
         public static SaveRepository Initialize(string profile) {
-            var repo = new SaveRepository(new ObservableCollection<SaveInformation>(), profile);
+            var path = SaveLoader.BaseDataPath;
+            if (profile == null) {
+                if (_master != null) {
+                    return _master;
+                }
+            } else {
+                path = SaveLoader.ProfilePath(profile);
+            }
+            var repo = new SaveRepository(new ObservableCollection<SaveInformation>(), path);
 
-            var existing = Directory.GetFiles(SaveLoader.BaseDataPath)
+            var existing = Directory.GetFiles(path)
                 .Where(f => SaveLoader.FilePathFormat.IsMatch(f))
                 .Select(SaveLoader.Load);
 
@@ -45,6 +59,9 @@ namespace ExanimaSaveManager {
                 repo._list.Add(info);
             }
 
+            if (profile == null) {
+                _master = repo;
+            }
             return repo;
         }
     }
