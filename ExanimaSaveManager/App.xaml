@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:ExanimaSaveManager"
              StartupUri="UI/MainWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>
+
+
+

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
@@ -13,12 +14,17 @@ namespace ExanimaSaveManager {
         private Profile _profile;
         private SaveInformation _selected;
         private readonly object _lock;
+        private bool _canSave;
 
         public Details(SaveInformation master) {
             Master = master;
             _profile = new Profile(master);
             _lock = new object();
+            CanSave = true;
             BindingOperations.EnableCollectionSynchronization(_profile.Repository, _lock);
+            ((INotifyCollectionChanged) _profile.Repository).CollectionChanged += (o, args) => {
+                CanSave = true;
+            };
             InitializeComponent();
         }
 
@@ -47,6 +53,14 @@ namespace ExanimaSaveManager {
             }
         }
 
+        public bool CanSave {
+            get => _canSave;
+            private set {
+                _canSave = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool HasSelection => _selected != null;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -62,6 +76,11 @@ namespace ExanimaSaveManager {
 
         private void BackupNow_Click(object sender, RoutedEventArgs e) {
             Profile.CreateBackup();
+        }
+
+        private void SaveDetails_Click(object sender, RoutedEventArgs e) {
+            Profile.WriteMaster();
+            CanSave = false;
         }
     }
 }

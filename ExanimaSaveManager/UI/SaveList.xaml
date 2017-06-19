@@ -27,7 +27,7 @@
             <DataGridTextColumn Binding="{Binding CharacterName}" Header="Character" Width="1*" IsReadOnly="True" />
             <DataGridTextColumn Binding="{Binding CurrentLevel}" Header="Level" Width="Auto" IsReadOnly="True" />
             <DataGridTextColumn Binding="{Binding GameMode}" Header="Game Mode" Width="Auto" IsReadOnly="True" />
-            <DataGridTextColumn Binding="{Binding ModificationTime}" Header="Last Change" Width="Auto" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding ModificationTime}" Header="Last Change" Width="Auto" IsReadOnly="True" SortDirection="Ascending" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

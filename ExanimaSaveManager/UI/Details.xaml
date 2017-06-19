@@ -5,27 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExanimaSaveManager"
         mc:Ignorable="d"
-        Title="{Binding Master.CharacterName, ElementName=window, StringFormat=History for \{0\}}"
-        Height="300" Width="400"
+        Title="Save Details"
+        Height="500" Width="400"
         WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:SaveList Grid.ColumnSpan="2"
+        <Grid Grid.ColumnSpan="2" Margin="0,0,5,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Character Name" />
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     VerticalAlignment="Center"
+                     Text="{Binding Master.CharacterName, ElementName=window, Mode=TwoWay}"
+                     MaxLength="16" />
+            <Button x:Name="SaveDetails" Grid.Row="1" Grid.Column="0" Margin="5" Content="Save"
+                    Click="SaveDetails_Click"
+                    IsEnabled="{Binding CanSave, ElementName=window}"/>
+            <Label Grid.Column="1" Grid.Row="1" Padding="0,5,5,5"
+                   Content="Character name limited by game to 16 characters" 
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+        </Grid>
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+               Content="Change History" FontSize="16"/>
+        <local:SaveList Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,5,5,0"
                         Items="{Binding Profile.Repository, ElementName=window}"
                         Selected="{Binding Selected, ElementName=window, Mode=TwoWay}" />
-        <Button x:Name="ApplySelected" Grid.Row="1" Grid.Column="0"
+        <Button x:Name="ApplySelected" Grid.Row="3" Grid.Column="0" Margin="5,5,2.5,5"
                 Content="Use this Version" 
                 Click="ApplySelected_Click"
                 IsEnabled="{Binding HasSelection, ElementName=window}" />
-        <Button x:Name="BackupNow" Grid.Row="1" Grid.Column="1"
+        <Button x:Name="BackupNow" Grid.Row="3" Grid.Column="1" Margin="2.5,5,5,5"
                 Content="Backup Now" 
                 Click="BackupNow_Click" />
     </Grid>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

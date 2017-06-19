@@ -22,8 +22,10 @@ namespace ExanimaSaveManager {
             var file = new FileInfo(filePath);
             using (var fileStream = File.OpenRead(filePath))
             using (var stream = new BufferedStream(fileStream)) {
-                var level = ReadNullTerminatedStringAt(stream, CurrentLevelOffset);
-                var character = ReadNullTerminatedStringAt(stream, CharacterNameOffset);
+                stream.Position = CurrentLevelOffset;
+                var level = ReadNullTerminatedString(stream);
+                stream.Position = CharacterNameOffset;
+                var character = ReadNullTerminatedString(stream);
                 return new SaveInformation {
                     GameMode = match.Groups["GameMode"].Value,
                     CurrentLevel = level,
@@ -34,9 +36,14 @@ namespace ExanimaSaveManager {
             }
         }
 
-        private static string ReadNullTerminatedStringAt(Stream stream, long position) {
-            stream.Position = position;
-            return ReadNullTerminatedString(stream);
+        public static void Write(SaveInformation info, string filePath) {
+            using (var fileStream = File.OpenWrite(filePath))
+            using (var stream = new BufferedStream(fileStream)) {
+                stream.Position = CurrentLevelOffset;
+                WriteNullTerminatedString(stream, info.CurrentLevel);
+                stream.Position = CharacterNameOffset;
+                WriteNullTerminatedString(stream, info.CharacterName);
+            }
         }
 
         private static string ReadNullTerminatedString(Stream stream) {
@@ -48,6 +55,12 @@ namespace ExanimaSaveManager {
                 ++i;
             }
             return Encoding.ASCII.GetString(bytes, 0, i);
+        }
+
+        private static void WriteNullTerminatedString(Stream stream, string value) {
+            var bytes = Encoding.ASCII.GetBytes(value);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.WriteByte(0);
         }
     }
 }

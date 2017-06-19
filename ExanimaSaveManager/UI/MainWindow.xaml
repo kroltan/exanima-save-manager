@@ -17,12 +17,16 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <local:SaveList x:Name="List" Grid.ColumnSpan="2"
+        <local:SaveList x:Name="List" Grid.ColumnSpan="2" Margin="5,5,5,0"
                         Items="{Binding Saves, ElementName=window, Mode=OneWay}"
                         Selected="{Binding Selected, ElementName=window, Mode=TwoWay}"/>
-        <Button x:Name="Revert" Grid.Row="1" Grid.Column="0" Content="Restore Previous"
-                IsEnabled="{Binding SelectionCanRevert, ElementName=window, Mode=OneWay}" Click="Revert_Click" />
-        <Button x:Name="History" Grid.Row="1" Grid.Column="1" Content="View History" Click="History_Click" 
+        <Button x:Name="Revert" Grid.Row="1" Grid.Column="0" Margin="5,5,2.5,5"
+                Content="Restore Previous"
+                Click="Revert_Click"
+                IsEnabled="{Binding SelectionCanRevert, ElementName=window, Mode=OneWay}" />
+        <Button x:Name="History" Grid.Row="1" Grid.Column="1" Margin="2.5,5,5,5" 
+                Content="View History"
+                Click="History_Click" 
                 IsEnabled="{Binding HasSelection, ElementName=window, Mode=OneWay}" />
      </Grid>
 </Window>

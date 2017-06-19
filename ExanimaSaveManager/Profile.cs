@@ -31,7 +31,11 @@ namespace ExanimaSaveManager {
             OnPropertyChanged(nameof(MasterFilePath));
         }
 
-        public void CreateBackup() {
+        public void WriteMaster() {
+            SaveLoader.Write(_master, MasterFilePath);
+        }
+
+        public SaveInformation CreateBackup() {
             var timestamp = DateTime.UtcNow.ToFileTime().ToString();
             var dummyInfo = new SaveInformation {
                 GameMode = _master.GameMode,
@@ -46,6 +50,8 @@ namespace ExanimaSaveManager {
                 LastWriteTime = DateTime.Now
             };
             file.Refresh();
+
+            return SaveLoader.Load(backupPath);
         }
 
         public void Restore(SaveInformation backupInfo) {
