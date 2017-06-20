@@ -10,11 +10,20 @@ namespace ExanimaSaveManager {
     public sealed class Profile : INotifyPropertyChanged, IDisposable {
         private readonly SaveInformation _master;
         private readonly string _profileName;
+        private readonly TimeSpan _externalChangeBackupTimeout = TimeSpan.FromSeconds(1);
         public SaveRepository Repository { get; }
 
         public IEnumerable<SaveInformation> ByModification => Repository.OrderBy(i => i.ModificationTime);
 
         private string MasterFilePath => Path.Combine(SaveLoader.BaseDataPath, _master.FileName);
+
+        private bool IsLatestBackupStale {
+            get {
+                var lastMod = ByModification.Last().ModificationTime;
+                var masterMod = _master.ModificationTime;
+                return masterMod.Subtract(lastMod) > _externalChangeBackupTimeout;
+            }
+        }
 
         public Profile(SaveInformation master) {
             _master = master;
@@ -24,7 +33,7 @@ namespace ExanimaSaveManager {
                 Directory.CreateDirectory(path);
             }
             Repository = SaveRepository.Initialize(_profileName);
-            if (Repository.Count == 0) {
+            if (Repository.Count == 0 || IsLatestBackupStale) {
                 CreateBackup();
             }
             OnPropertyChanged(nameof(Repository));
@@ -51,7 +60,8 @@ namespace ExanimaSaveManager {
             };
             file.Refresh();
 
-            return SaveLoader.Load(backupPath);
+            var backup = SaveLoader.Load(backupPath);
+            return backup;
         }
 
         public void Restore(SaveInformation backupInfo) {
@@ -62,6 +72,11 @@ namespace ExanimaSaveManager {
             File.Copy(backupPath, newTemp);
             File.Move(newTemp, MasterFilePath);
             File.Delete(oldTemp);
+        }
+
+        public void Delete(SaveInformation backupInfo) {
+            var backupPath = Path.Combine(SaveLoader.ProfilePath(_profileName), backupInfo.FileName);
+            File.Delete(backupPath);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

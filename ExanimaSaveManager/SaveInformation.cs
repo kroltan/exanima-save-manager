@@ -61,6 +61,13 @@ namespace ExanimaSaveManager {
                    && Identifier == other.Identifier;
         }
 
+        public void UseInformationFrom(SaveInformation other) {
+            CharacterName = other.CharacterName;
+            GameMode = other.GameMode;
+            Identifier = other.Identifier;
+            ModificationTime = other.ModificationTime;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

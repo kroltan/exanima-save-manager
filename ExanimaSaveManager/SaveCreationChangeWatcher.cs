@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Timers;
-using System.Windows.Threading;
 
 namespace ExanimaSaveManager {
     public class SaveCreationChangeWatcher : IDisposable {
